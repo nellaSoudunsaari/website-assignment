@@ -1,0 +1,49 @@
+:root {
+    --bg-color: #5F7849;
+    --txt-color: rgb(34, 20, 8);
+    --txt-acc-color: rgb(32, 19, 7);
+    --div-bg-color1: #ECD698;
+    --div-bg-color2: #F2E3BA;
+    --font1: "Texturina", serif;
+    --font2: "Sorts Mill Goudy", serif;
+}
+
+body{
+    background-color: var(--bg-color);
+    color: var(--txt-color);
+    text-align: center;
+    font-family: var(--font1);
+}
+.container{
+    display: grid;
+    place-items: center;
+    width: 95vw;
+    height: 95vh;
+    position: relative;
+}
+
+.content{
+    display: grid;
+    grid-template-columns: 15% 85%;
+    grid-template-rows: 20% 70% 10%;
+    position:absolute;
+    background-color: var(--div-bg-color2);
+    border: 3px var(--div-bg-color1) solid;
+    border-radius: 25px;
+    height: 70vh;
+    width: 75vw;
+}
+
+.title{
+    grid-column-start: 2;
+}
+
+.nav{
+    grid-row-start: 2;
+    grid-column-start: 1;
+    display: grid;
+}
+
+.front-page{
+    z-index: 10;
+}
