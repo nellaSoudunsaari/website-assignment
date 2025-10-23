@@ -10,6 +10,11 @@
     --font2: "Sorts Mill Goudy", serif;
 }
 
+@font-face {
+    font-family: pkmn;
+    src: url(resources/fonts/pkmnrs.ttf);
+}
+
 body{
     background-color: var(--bg-color);
     color: var(--txt-color);
@@ -187,3 +192,98 @@ button:hover{
     margin: 10px;
     max-width: 25vw;
 }
+
+/* Pokemon-search */
+
+#pokemon-search{
+    background: url(resources/borderbg.gif);
+    border-radius: 5px;
+    box-shadow: 0 1px 5px #ccc;
+    box-sizing: border-box;
+    font-family: pkmn;
+    width: 40vw;
+    font-size: 25px;
+    height: 40vh;
+    padding: 20px;
+    margin: auto;
+    display: grid;
+    grid-template-rows: 60% 40%;
+}
+
+#pokedex-mid{
+    grid-row-start: 1;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+#shiny-toggle{
+    display: flex;
+    position: absolute;
+    align-items: center;
+}
+
+#shiny-toggle > p{
+    font-size: 18px;
+}
+
+/* From Uiverse.io by andrew-demchenk0 */ 
+#shiny-switch input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+#shiny-switch {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+#shiny-switch svg {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 35px;
+  width: 35px;
+  fill: #666;
+}
+
+#shiny-switch input:checked ~ svg {
+  fill: #ffeb49;
+}
+
+
+#default-artwork, #shiny-artwork{
+    grid-column-start: 1;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    width: 12vw;
+}
+
+#poke-info{
+    grid-column-start: 2;
+}
+
+#pokemon-types > img{
+    width: 3.5vw;
+}
+
+#pokedex-bottom{
+    grid-row-start: 2;
+}
+
+#pokedex-entry{
+    background: url(resources/papertxtr.jpg);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    width: 100%;
+    height: 12vh;
+}
+

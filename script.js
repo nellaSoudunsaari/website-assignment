@@ -43,7 +43,7 @@ navFirstpg.addEventListener("click", () =>{
 });
 
 navSecondpg.addEventListener("click", () =>{
-    pgtitle.innerHTML = "Second page";
+    pgtitle.innerHTML = "Pokédex";
     conFrontpg.style.display = "none";
     conFirstpg.style.display = "none";
     conSecondpg.style.display = "block";
@@ -150,3 +150,68 @@ function showFullNote(ind){
     noteTitle.value = notes[ind].title;
     noteText.value = notes[ind].text;
 }
+
+// Elements
+    //pokedex
+const searchField = document.getElementById("search-field");
+const searchBtn = document.getElementById("search-btn");
+
+    //info fields
+const pokemonID = document.getElementById("pokemon-id");
+const pokemonName = document.getElementById("pokemon-name");
+const pokemonType = document.getElementById("pokemon-types");
+const defImg = document.getElementById("default-artwork");
+const shinyImg = document.getElementById("shiny-artwork");
+const pokedexEntry = document.getElementById("pokedex-entry");
+const shinyToggle = document.querySelector("#shiny");
+
+
+// TESTAUSTA API
+
+searchBtn.addEventListener("click", () =>{
+    const searchName = searchField.value.toLowerCase();
+    fetch(`https://pokeapi.co/api/v2/pokemon/${searchName}`)
+    .then(response => response.json())
+    .then(data => displayPokemon(data))
+    .catch(err => console.error(err));
+});
+
+function displayPokemon(pokemonData){
+    console.log(pokemonData);
+    fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonData.id}`)
+    .then(response => response.json())
+    .then(data => {
+        let languageNumber = 2;
+        for (let i = 0; i < data.flavor_text_entries.length; i++) {
+            if (data.flavor_text_entries[i].language.name == "en") {
+            languageNumber = i;
+            break;
+            }
+        }
+        quote = data.flavor_text_entries[languageNumber].flavor_text;
+        pokedexEntry.innerHTML = quote;
+    });
+    let imgURL = pokemonData['sprites']['front_default'];
+    let shinyImgURL = pokemonData['sprites']['front_shiny'];
+    defImg.setAttribute("src", imgURL);
+    shinyImg.setAttribute("src", shinyImgURL);
+    pokemonID.innerHTML = `${pokemonData.id} ${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}`;
+    pokemonType.innerHTML = "";
+    pokemonData.types.forEach( type =>{
+        pokemonType.innerHTML += `<img src="resources/pokemon_types/${type.type.name}.png" alt="">`;
+    });
+}
+
+shinyToggle.addEventListener("change", function() {
+    if(shinyToggle.checked){
+        console.log("checked");
+        shinyImg.style.display = "block";
+        defImg.style.display = "none";
+    } else {
+        console.log("unchecked");
+        shinyImg.style.display = "none";
+        defImg.style.display = "block";
+    }
+});
+
+
