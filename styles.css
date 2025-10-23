@@ -23,13 +23,12 @@ body{
 
 .content{
     display: grid;
-    grid-template-columns: 15% 85%;
+    grid-template-columns: 20% 80%;
     grid-template-rows: 20% 70% 10%;
     background-color: var(--div-bg-color2);
     background-image: url(resources/papertxtr2.jpg);
     background-repeat: no-repeat;
-    background-position: right;
-    background-size: 85% auto;
+    background-size: 100% auto;
     border: 3px var(--div-bg-color1) solid;
     border-radius: 25px;
     height: 70vh;
@@ -42,10 +41,10 @@ body{
 }
 
 .nav{
-    z-index: 99;
     grid-row-start: 1;
     grid-column-start: 1;
     display: grid;
+    text-align: left;
     grid-template-rows: repeat(5, 100%);
 }
 
@@ -63,6 +62,35 @@ body{
 }
 #fourth-page{
     grid-row-start: 5;
+}
+
+a{
+    display: flex;
+    position: relative;
+    align-items: center;
+    text-decoration: none;
+    padding-left: 20px;
+}
+
+#navImg:hover{
+    transform: rotate(20deg);
+}
+
+#navImg2:hover{
+    transform: rotate(-20deg);
+}
+
+#label{
+    display: none;
+    font-size: 14px;
+    background-color: var(--div-bg-color2);
+    color: var(--txt-color);
+    border: 1px var(--txt-acc-color) solid;
+    padding: 3px;
+}
+
+a:hover > #label{
+    display: block;
 }
 
 #front-page > img, #first-page > img, #second-page > img, #third-page > img{
