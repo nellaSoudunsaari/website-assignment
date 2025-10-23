@@ -1,9 +1,11 @@
 :root {
     --bg-color: #5F7849;
-    --txt-color: rgb(34, 20, 8);
-    --txt-acc-color: rgb(32, 19, 7);
+    --txt-color: #221408;
+    --txt-acc-color: #201307;
     --div-bg-color1: #ECD698;
     --div-bg-color2: #F2E3BA;
+    --acc-color1: #DEC1EB;
+    --acc-color2: #C693DC;
     --font1: "Texturina", serif;
     --font2: "Sorts Mill Goudy", serif;
 }
@@ -35,11 +37,16 @@ body{
     width: 75vw;
 }
 
+.inner-content{
+    grid-row-start: 2;
+    grid-column-start: 2;
+}
 
 .title{
     grid-column-start: 2;
 }
 
+/* Navigation */
 .nav{
     grid-row-start: 1;
     grid-column-start: 1;
@@ -101,7 +108,82 @@ a:hover > #label{
     height: 100px;
 }
 
-.inner-content{
+button{
+    width: fit-content;
+    font-family: var(--font1);
+    font-size: 15px;
+    margin: 5px;
+    background-color: var(--acc-color1);
+    border-radius: 0;
+    cursor: pointer;
+    border: var(--acc-color2) 2px solid;
+}
+
+button:hover{
+    background-color: #e4ceee;
+}
+
+/* Notes page */
+
+.notes{
+    display: grid;
+    grid-template-rows: 25% 75%;
+    grid-template-columns: 50% 50%;
+}
+
+#notes-input{
+    display: grid;
+    grid-column-start: 1;
+    height: fit-content;
+    padding: 10px;
+    width: 25vw;
+    background: url(resources/borderbg.gif);
+    border-radius: 5px;
+    box-shadow: 0 1px 5px #ccc;
+    box-sizing: border-box;
+}
+
+#note-title{
+    grid-row-start: 1;
+    width: 250px;
+    font-family: var(--font2);
+    font-size: 18px;
+}
+
+#note-text{
     grid-row-start: 2;
-    grid-column-start: 2;
+    font-family: var(--font1);
+    margin: 20px;
+    width: 400px;
+    max-height: 300px;
+}
+
+#msgArea{
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+#errMsg{
+    padding-left: 50px;
+}
+
+/* Notes list */
+#notes-list{
+    overflow-y: hidden;
+    overflow: scroll;
+    height: 400px;
+    width: 500px;
+    
+}
+
+.note{
+    background: url(resources/borderbg.gif);
+    border-radius: 5px;
+    box-shadow: 0 1px 5px #ccc;
+    box-sizing: border-box;
+    text-align: left;
+    padding: 10px;
+    margin: 10px;
+    max-width: 25vw;
 }

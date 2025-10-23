@@ -22,11 +22,11 @@
                 </a>
                 <a id="first-page" href="#">
                     <img id="navImg2"  src="resources/kukka4.png" alt="Stamp, front-page">
-                    <p id="label">First page</p>
+                    <p id="label">Write a letter!</p>
                 </a>
                 <a id="second-page" href="#">
                     <img id="navImg" src="resources/kukka3.png" alt="Stamp, front-page">
-                    <p id="label">Second page</p>
+                    <p id="label">Search for plants</p>
                 </a>
                 <a id="third-page" href="#">
                     <img id="navImg2" src="resources/kukka2.png" alt="Stamp, front-page">
@@ -44,11 +44,24 @@
             </div>
             <!-- First page -->
             <div class="inner-content first-page" id="1p-content" style="display: none;">
-                <p>Notes/letter writing</p>
+                <div class="notes">
+                    <div id="notes-input">
+                        <input type="text" id="note-title" placeholder="Title">
+                        <textarea id="note-text" rows="20" placeholder="Write here..."></textarea>
+                        <div id="msgArea">
+                            <button id="add-note">Save note</button>
+                            <button id="clear-note">Clear text</button>
+                            <p id="errMsg"></p>
+                        </div> 
+                    </div>
+                    <div id="notes-list">
+                        
+                    </div>
+                </div>
             </div>
             <!-- Second page -->
             <div class="inner-content second-page" id="2p-content" style="display: none;">
-                <p>Put on the stamp</p>
+                <p>Search for plants</p>
             </div>
             <!-- Third page -->
             <div class="inner-content third-page" id="3p-content" style="display: none;">
