@@ -1,26 +1,22 @@
-//Navigation
+//NAVIGATION
+
+// nav buttons
 const navFrontpg = document.getElementById("front-page");
 const navFirstpg = document.getElementById("first-page");
 const navSecondpg = document.getElementById("second-page");
 const navThirdpg = document.getElementById("third-page");
 const navFourthpg = document.getElementById("fourth-page");
 
-//Pages
+// Pages
 const conFrontpg = document.getElementById("fp-content");
 const conFirstpg = document.getElementById("1p-content");
 const conSecondpg = document.getElementById("2p-content");
 const conThirdpg = document.getElementById("3p-content");
 const conFourthpg = document.getElementById("4p-content");
 
-//Elements
+// Elements
 const pgtitle = document.getElementById("title");
-    // notes
-const noteTitle = document.getElementById("note-title");
-const noteText = document.getElementById("note-text");
-const addNote = document.getElementById("add-note");
-const clearNote = document.getElementById("clear-note");
-const notesList = document.getElementById("notes-list");
-const errMsg = document.getElementById("errMsg");
+
 
 
 // Change pages/navigation
@@ -34,7 +30,7 @@ navFrontpg.addEventListener("click", () =>{
 });
 
 navFirstpg.addEventListener("click", () =>{
-    pgtitle.innerHTML = "Write a letter!";
+    pgtitle.innerHTML = "Notes";
     conFrontpg.style.display = "none";
     conFirstpg.style.display = "block";
     conSecondpg.style.display = "none";
@@ -52,7 +48,7 @@ navSecondpg.addEventListener("click", () =>{
 });
 
 navThirdpg.addEventListener("click", () =>{
-    pgtitle.innerHTML = "Third page";
+    pgtitle.innerHTML = "Pokémon type chart";
     conFrontpg.style.display = "none";
     conFirstpg.style.display = "none";
     conSecondpg.style.display = "none";
@@ -69,7 +65,21 @@ navFourthpg.addEventListener("click", () =>{
     conFourthpg.style.display = "block";
 });
 
-// Notes page logic
+
+
+// NOTES
+
+
+// Elements
+const noteTitle = document.getElementById("note-title");
+const noteText = document.getElementById("note-text");
+const notesList = document.getElementById("notes-list");
+const errMsg = document.getElementById("errMsg");
+
+// Buttons
+const addNote = document.getElementById("add-note");
+const clearNote = document.getElementById("clear-note");
+
 
 showNotes();
 
@@ -151,8 +161,10 @@ function showFullNote(ind){
     noteText.value = notes[ind].text;
 }
 
+// POKÉDEX
+
 // Elements
-    //pokedex
+    // search 
 const searchField = document.getElementById("search-field");
 const searchBtn = document.getElementById("search-btn");
 
@@ -160,13 +172,11 @@ const searchBtn = document.getElementById("search-btn");
 const pokemonID = document.getElementById("pokemon-id");
 const pokemonName = document.getElementById("pokemon-name");
 const pokemonType = document.getElementById("pokemon-types");
+const pokedexEntry = document.getElementById("pokedex-entry");
+const heightWeight = document.getElementById("pokemon-height-weight");
 const defImg = document.getElementById("default-artwork");
 const shinyImg = document.getElementById("shiny-artwork");
-const pokedexEntry = document.getElementById("pokedex-entry");
 const shinyToggle = document.querySelector("#shiny");
-
-
-// TESTAUSTA API
 
 searchBtn.addEventListener("click", () =>{
     const searchName = searchField.value.toLowerCase();
@@ -177,11 +187,13 @@ searchBtn.addEventListener("click", () =>{
 });
 
 function displayPokemon(pokemonData){
-    console.log(pokemonData);
+
+    //pokemon id is needed to fetch data from pokemon-species
     fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonData.id}`)
     .then(response => response.json())
     .then(data => {
         let languageNumber = 2;
+        // language number changes between game versions
         for (let i = 0; i < data.flavor_text_entries.length; i++) {
             if (data.flavor_text_entries[i].language.name == "en") {
             languageNumber = i;
@@ -191,11 +203,21 @@ function displayPokemon(pokemonData){
         quote = data.flavor_text_entries[languageNumber].flavor_text;
         pokedexEntry.innerHTML = quote;
     });
+
+    // set both shiny and default sprites in advance
     let imgURL = pokemonData['sprites']['front_default'];
     let shinyImgURL = pokemonData['sprites']['front_shiny'];
     defImg.setAttribute("src", imgURL);
     shinyImg.setAttribute("src", shinyImgURL);
-    pokemonID.innerHTML = `${pokemonData.id} ${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}`;
+
+    pokemonID.innerHTML = `No. ${pokemonData.id}  &emsp;  ${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}`;
+
+    // math.round because otherwise too many decimals
+    const weight = Math.round((pokemonData.weight * 0.1) * 100) / 100;
+    const height = Math.round((pokemonData.height * 0.1) * 100) / 100;
+    heightWeight.innerHTML = `Height: ${height} m Weight: ${weight} kg`;
+
+    // empty types before adding new ones
     pokemonType.innerHTML = "";
     pokemonData.types.forEach( type =>{
         pokemonType.innerHTML += `<img src="resources/pokemon_types/${type.type.name}.png" alt="">`;
@@ -213,5 +235,8 @@ shinyToggle.addEventListener("change", function() {
         defImg.style.display = "block";
     }
 });
+
+
+// POKÉMON TYPE CHART
 
 
