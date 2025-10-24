@@ -65,10 +65,15 @@ const errMsg = document.getElementById("errMsg");
 const addNote = document.getElementById("add-note");
 const clearNote = document.getElementById("clear-note");
 
-
+// show stored notes on site load
 showNotes();
 
+
+// add note to local storage
 addNote.addEventListener("click", () =>{
+
+    // create a notes-array to local storage 
+    // IF not already created, then get the notes-array
     let notes = localStorage.getItem("notes");
     if(notes === null){
         notes = [];
@@ -76,21 +81,27 @@ addNote.addEventListener("click", () =>{
         notes = JSON.parse(notes);
     }
 
+    // check if note has any text
     if(noteText.value == ""){
         errMsg.innerHTML = "Please, write a note first";
         return;
     }
 
+    // save information to an object
     const noteObj = { title: noteTitle.value, text: noteText.value}
 
+    // clear all text on create
     noteTitle.value = "";
     noteText.value = "";
     errMsg.innerHTML = "";
+    // push note to array and save it to local storage
     notes.push(noteObj);
     localStorage.setItem("notes", JSON.stringify(notes));
+    // update all notes list
     showNotes();
 });
 
+// Clear all text
 clearNote.addEventListener("click", () =>{
     noteTitle.value = "";
     noteText.value = "";
@@ -98,6 +109,9 @@ clearNote.addEventListener("click", () =>{
 });
 
 function showNotes(){
+
+    // create a notes-array to local storage 
+    // IF not already created, then get the notes-array
     let notesHTML = "";
     let notes = localStorage.getItem("notes");
 
@@ -107,6 +121,7 @@ function showNotes(){
         notes = JSON.parse(notes);
     }
 
+    // create a single note element with functions
     for(let i = 0; i < notes.length; i++){
         notesHTML += `<div class="note">
                             <button class="delete-note" id=${i} onclick="deleteNote(${i})">Delete note</button>
@@ -120,6 +135,7 @@ function showNotes(){
     notesList.innerHTML = notesHTML;
 }
 
+// delete a single note
 function deleteNote(ind){
     let notes = localStorage.getItem("notes");
     if(notes === null){
@@ -133,6 +149,7 @@ function deleteNote(ind){
     showNotes();
 }
 
+// show a single note and it's information
 function showFullNote(ind){
     let notes = localStorage.getItem("notes");
 
@@ -164,39 +181,51 @@ const defImg = document.getElementById("default-artwork");
 const shinyImg = document.getElementById("shiny-artwork");
 const shinyToggle = document.querySelector("#shiny");
 
+
+// Search for a pokemon
 searchBtn.addEventListener("click", () =>{
+    // change search term to lowercare to avoid errors
     const searchName = searchField.value.toLowerCase();
+    // fetch the pokemon and display it
     fetch(`https://pokeapi.co/api/v2/pokemon/${searchName}`)
     .then(response => response.json())
     .then(data => displayPokemon(data))
     .catch(err => console.error(err));
 });
 
+// Get a random pokemon
 randomBtn.addEventListener("click", () =>{
 
-  let randomPokemonID;
+    // variable for pokemon id
+    let randomPokemonID;
 
-  fetch(`https://pokeapi.co/api/v2/pokemon/`)
-  .then(response => response.json())
-  .then(data => {
-    let allPokemonCount = data.count;
-    randomPokemonID = Math.floor(Math.random() * (allPokemonCount - 1));
-      fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemonID}`)
-      .then(response => response.json())
-      .then(data => {
-        displayPokemon(data);
-      });
+    // get all pokemon
+    fetch(`https://pokeapi.co/api/v2/pokemon/`)
+    .then(response => response.json())
+    .then(data => {
+        // count the occurrences
+        let allPokemonCount = data.count;
+        // set a random pokemon id
+        randomPokemonID = Math.floor(Math.random() * (allPokemonCount - 1));
+        // fetch the random pokemon by it's id and display it
+        fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemonID}`)
+        .then(response => response.json())
+        .then(data => {
+            displayPokemon(data);
+        });
   })});
 
 
+// Display the fetched pokemon
 function displayPokemon(pokemonData){
 
+    // fetch the flavour text/pokedex entry
     //pokemon id is needed to fetch data from pokemon-species
     fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonData.id}`)
     .then(response => response.json())
     .then(data => {
         let languageNumber = 2;
-        // language number changes between game versions
+        // language number changes between game versions, make sure it's in english
         for (let i = 0; i < data.flavor_text_entries.length; i++) {
             if (data.flavor_text_entries[i].language.name == "en") {
             languageNumber = i;
@@ -207,26 +236,31 @@ function displayPokemon(pokemonData){
         pokedexEntry.innerHTML = quote;
     });
 
-    // set both shiny and default sprites in advance
+    // set both shiny and default sprites in advance, changing them happens in the shinyToggle-eventListener
     let imgURL = pokemonData['sprites']['front_default'];
     let shinyImgURL = pokemonData['sprites']['front_shiny'];
     defImg.setAttribute("src", imgURL);
     shinyImg.setAttribute("src", shinyImgURL);
 
+    // Set pokemon id and name
     pokemonID.innerHTML = `No. ${pokemonData.id}  &emsp;  ${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}`;
 
     // math.round because otherwise too many decimals
     const weight = Math.round((pokemonData.weight * 0.1) * 100) / 100;
     const height = Math.round((pokemonData.height * 0.1) * 100) / 100;
+    // set height and weight (in the metric system)
     heightWeight.innerHTML = `Height: ${height} m Weight: ${weight} kg`;
 
     // empty types before adding new ones
     pokemonType.innerHTML = "";
+    // get each type from a single pokemon, and create an image for each of them (or only one)
     pokemonData.types.forEach( type =>{
         pokemonType.innerHTML += `<img src="resources/pokemon_types/${type.type.name}.png" alt="">`;
     });
 }
 
+
+// Toggle/Change between shiny and default version
 shinyToggle.addEventListener("change", function() {
     if(shinyToggle.checked){
         shinyImg.style.display = "block";
@@ -247,8 +281,13 @@ const typeWeaknesses = document.getElementById("weaknesses");
 const typeNoEffects = document.getElementById("no-effects");
 const typeNoEffectTo = document.getElementById("no-effect-to");
 
+
+// Get all types on window load
 window.onload = function() {
+    // there are 18 major pokemon types in total
     let typeAmount = 18;
+
+    // fetch each type and send it to display
     for(let i = 1; i <= typeAmount; i++){
         fetch(`https://pokeapi.co/api/v2/type/${i}/`)
         .then(response => response.json())
@@ -259,16 +298,21 @@ window.onload = function() {
     }  
 };
 
+// Create a button for each type, set the value as the type name for interactions
 function displayType(typeData){
     typeList.innerHTML += `<input id="type-btn" type="image" src="resources/pokemon_types/${typeData.name}.png" onClick="typeEffects(this.value)" value="${typeData.name}"/>`;
 };
 
+// Get the type name and fetch interactions
 function typeEffects(clicked_value){
     fetch(`https://pokeapi.co/api/v2/type/${clicked_value}`)
     .then(response => response.json())
     .then(data => {
         type = data;
 
+        // Create an image for each interaction
+        
+        // display chosen type
         typeChosen.innerHTML = "";
         typeChosen.innerHTML += `<img src="resources/pokemon_types/${clicked_value}.png" alt="">`;
 
