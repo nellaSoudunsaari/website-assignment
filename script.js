@@ -1,26 +1,20 @@
-//Navigation
+//NAVIGATION
+
+// nav buttons
 const navFrontpg = document.getElementById("front-page");
 const navFirstpg = document.getElementById("first-page");
 const navSecondpg = document.getElementById("second-page");
 const navThirdpg = document.getElementById("third-page");
-const navFourthpg = document.getElementById("fourth-page");
 
-//Pages
+// Pages
 const conFrontpg = document.getElementById("fp-content");
 const conFirstpg = document.getElementById("1p-content");
 const conSecondpg = document.getElementById("2p-content");
 const conThirdpg = document.getElementById("3p-content");
-const conFourthpg = document.getElementById("4p-content");
 
-//Elements
+// Elements
 const pgtitle = document.getElementById("title");
-    // notes
-const noteTitle = document.getElementById("note-title");
-const noteText = document.getElementById("note-text");
-const addNote = document.getElementById("add-note");
-const clearNote = document.getElementById("clear-note");
-const notesList = document.getElementById("notes-list");
-const errMsg = document.getElementById("errMsg");
+
 
 
 // Change pages/navigation
@@ -30,46 +24,47 @@ navFrontpg.addEventListener("click", () =>{
     conFirstpg.style.display = "none";
     conSecondpg.style.display = "none";
     conThirdpg.style.display = "none";
-    conFourthpg.style.display = "none";
 });
 
 navFirstpg.addEventListener("click", () =>{
-    pgtitle.innerHTML = "Write a letter!";
+    pgtitle.innerHTML = "Notes";
     conFrontpg.style.display = "none";
     conFirstpg.style.display = "block";
     conSecondpg.style.display = "none";
     conThirdpg.style.display = "none";
-    conFourthpg.style.display = "none";
 });
 
 navSecondpg.addEventListener("click", () =>{
-    pgtitle.innerHTML = "Second page";
+    pgtitle.innerHTML = "Pokédex";
     conFrontpg.style.display = "none";
     conFirstpg.style.display = "none";
     conSecondpg.style.display = "block";
     conThirdpg.style.display = "none";
-    conFourthpg.style.display = "none";
 });
 
 navThirdpg.addEventListener("click", () =>{
-    pgtitle.innerHTML = "Third page";
+    pgtitle.innerHTML = "Pokémon type chart";
     conFrontpg.style.display = "none";
     conFirstpg.style.display = "none";
     conSecondpg.style.display = "none";
     conThirdpg.style.display = "block";
-    conFourthpg.style.display = "none";
 });
 
-navFourthpg.addEventListener("click", () =>{
-    pgtitle.innerHTML = "Fourth page";
-    conFrontpg.style.display = "none";
-    conFirstpg.style.display = "none";
-    conSecondpg.style.display = "none";
-    conThirdpg.style.display = "none";
-    conFourthpg.style.display = "block";
-});
 
-// Notes page logic
+
+// NOTES
+
+
+// Elements
+const noteTitle = document.getElementById("note-title");
+const noteText = document.getElementById("note-text");
+const notesList = document.getElementById("notes-list");
+const errMsg = document.getElementById("errMsg");
+
+// Buttons
+const addNote = document.getElementById("add-note");
+const clearNote = document.getElementById("clear-note");
+
 
 showNotes();
 
@@ -149,4 +144,132 @@ function showFullNote(ind){
 
     noteTitle.value = notes[ind].title;
     noteText.value = notes[ind].text;
+}
+
+// POKÉDEX
+
+// Elements
+    // search 
+const searchField = document.getElementById("search-field");
+const searchBtn = document.getElementById("search-btn");
+
+    //info fields
+const pokemonID = document.getElementById("pokemon-id");
+const pokemonName = document.getElementById("pokemon-name");
+const pokemonType = document.getElementById("pokemon-types");
+const pokedexEntry = document.getElementById("pokedex-entry");
+const heightWeight = document.getElementById("pokemon-height-weight");
+const defImg = document.getElementById("default-artwork");
+const shinyImg = document.getElementById("shiny-artwork");
+const shinyToggle = document.querySelector("#shiny");
+
+searchBtn.addEventListener("click", () =>{
+    const searchName = searchField.value.toLowerCase();
+    fetch(`https://pokeapi.co/api/v2/pokemon/${searchName}`)
+    .then(response => response.json())
+    .then(data => displayPokemon(data))
+    .catch(err => console.error(err));
+});
+
+function displayPokemon(pokemonData){
+
+    //pokemon id is needed to fetch data from pokemon-species
+    fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonData.id}`)
+    .then(response => response.json())
+    .then(data => {
+        let languageNumber = 2;
+        // language number changes between game versions
+        for (let i = 0; i < data.flavor_text_entries.length; i++) {
+            if (data.flavor_text_entries[i].language.name == "en") {
+            languageNumber = i;
+            break;
+            }
+        }
+        quote = data.flavor_text_entries[languageNumber].flavor_text;
+        pokedexEntry.innerHTML = quote;
+    });
+
+    // set both shiny and default sprites in advance
+    let imgURL = pokemonData['sprites']['front_default'];
+    let shinyImgURL = pokemonData['sprites']['front_shiny'];
+    defImg.setAttribute("src", imgURL);
+    shinyImg.setAttribute("src", shinyImgURL);
+
+    pokemonID.innerHTML = `No. ${pokemonData.id}  &emsp;  ${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}`;
+
+    // math.round because otherwise too many decimals
+    const weight = Math.round((pokemonData.weight * 0.1) * 100) / 100;
+    const height = Math.round((pokemonData.height * 0.1) * 100) / 100;
+    heightWeight.innerHTML = `Height: ${height} m Weight: ${weight} kg`;
+
+    // empty types before adding new ones
+    pokemonType.innerHTML = "";
+    pokemonData.types.forEach( type =>{
+        pokemonType.innerHTML += `<img src="resources/pokemon_types/${type.type.name}.png" alt="">`;
+    });
+}
+
+shinyToggle.addEventListener("change", function() {
+    if(shinyToggle.checked){
+        shinyImg.style.display = "block";
+        defImg.style.display = "none";
+    } else {
+        shinyImg.style.display = "none";
+        defImg.style.display = "block";
+    }
+});
+
+
+// POKÉMON TYPE CHART
+
+const typeList = document.getElementById("type-col");
+const typeStrenghts = document.getElementById("strengths");
+const typeWeaknesses = document.getElementById("weaknesses");
+const typeNoEffects = document.getElementById("no-effects");
+const typeNoEffectTo = document.getElementById("no-effect-to");
+
+window.onload = function() {
+    let typeAmount = 18;
+    for(let i = 1; i <= typeAmount; i++){
+        fetch(`https://pokeapi.co/api/v2/type/${i}/`)
+        .then(response => response.json())
+        .then(data => {
+            displayType(data);
+        })
+        .catch(err => console.error(err));
+    }  
+};
+
+function displayType(typeData){
+    typeList.innerHTML += `<input id="type-btn" type="image" src="resources/pokemon_types/${typeData.name}.png" onClick="typeEffects(this.value)" value="${typeData.name}"/>`;
+};
+
+function typeEffects(clicked_value){
+    fetch(`https://pokeapi.co/api/v2/type/${clicked_value}`)
+    .then(response => response.json())
+    .then(data => {
+        type = data;
+
+        // Strenghts
+        typeStrenghts.innerHTML = "";
+        type.damage_relations.double_damage_to.forEach( type =>{
+            typeStrenghts.innerHTML += `<img src="resources/pokemon_types/${type.name}.png" alt="">`;
+        });
+        // Weaknesses
+        typeWeaknesses.innerHTML = "";
+        type.damage_relations.double_damage_from.forEach( type =>{
+            typeWeaknesses.innerHTML += `<img src="resources/pokemon_types/${type.name}.png" alt="">`;
+        });
+        // Immune to
+        typeNoEffectTo.innerHTML = "";
+        type.damage_relations.no_damage_to.forEach( type =>{
+            typeNoEffectTo.innerHTML += `<img src="resources/pokemon_types/${type.name}.png" alt="">`;
+        });
+        // Immunity from
+        typeNoEffects.innerHTML = "";
+        type.damage_relations.no_damage_from.forEach( type =>{
+            typeNoEffects.innerHTML += `<img src="resources/pokemon_types/${type.name}.png" alt="">`;
+        });
+    })
+    .catch(err => console.error(err));
 }
