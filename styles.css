@@ -31,7 +31,12 @@ body{
 .content{
     display: grid;
     grid-template-columns: 20% 80%;
-    grid-template-rows: 20% 70% 10%;
+    grid-template-rows: auto;
+    grid-template-areas:
+    'menu header'
+    'menu main'
+    'menu main';
+    text-align: center;
     background-color: var(--div-bg-color2);
     background-image: url(resources/papertxtr2.jpg);
     background-repeat: no-repeat;
@@ -43,34 +48,18 @@ body{
 }
 
 .inner-content{
-    grid-row-start: 2;
-    grid-column-start: 2;
+    grid-area: main;
 }
 
 .title{
-    grid-column-start: 2;
+    grid-area: header;
 }
 
 /* Navigation */
 .nav{
-    grid-row-start: 1;
-    grid-column-start: 1;
+    grid-area: menu;
     display: grid;
     text-align: left;
-    grid-template-rows: repeat(4, 100%);
-}
-
-#front-page{
-    grid-row-start: 1;
-}
-#first-page{
-    grid-row-start: 4;
-}
-#second-page{
-    grid-row-start: 2;
-}
-#third-page{
-    grid-row-start: 3;
 }
 
 a{
@@ -90,12 +79,12 @@ a{
 }
 
 #label{
+    grid-area: menu;
     display: none;
     font-size: 14px;
     background-color: var(--div-bg-color2);
     color: var(--txt-color);
     border: 1px var(--txt-acc-color) solid;
-    padding: 3px;
 }
 
 a:hover > #label{
@@ -123,22 +112,24 @@ button:hover{
 /* Front page */
 
 #row1{
-    display: flex;
+    display: grid;
     position: relative;
     text-align: center;
 }
 
 #welcome{
-    padding-left: 5vw;
+    justify-self: center;
 }
 
 #mareep{
     float: right;
-    padding-right: 10vw;
+    padding-right: 5vw;
+}
+#spinarak{
+    float: left;
 }
 
-
-#row1 > img, #row2 > img{
+#spinarak, #mareep{
     width: 10vw;
 }
 
@@ -147,13 +138,15 @@ button:hover{
 
 .notes{
     display: grid;
-    grid-template-rows: 25% 75%;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: auto auto;
+    grid-template-areas: 
+        'block1 block2'
+    ;
 }
 
 #notes-input{
     display: grid;
-    grid-column-start: 1;
+    grid-area: block1;
     height: fit-content;
     padding: 10px;
     width: 25vw;
@@ -174,7 +167,7 @@ button:hover{
     grid-row-start: 2;
     font-family: var(--font1);
     margin: 20px;
-    width: 400px;
+    width: 90%;
     max-height: 300px;
 }
 
@@ -190,6 +183,7 @@ button:hover{
 
 /* Notes list */
 #notes-list{
+    grid-area: block2;
     overflow-y: hidden;
     overflow: scroll;
     height: 400px;
@@ -205,7 +199,7 @@ button:hover{
     text-align: left;
     padding: 10px;
     margin: 10px;
-    max-width: 25vw;
+    width: 25vw;
 }
 
 /* Pokédex */
@@ -219,19 +213,34 @@ button:hover{
     width: 40vw;
     font-size: 25px;
     height: 40vh;
-    padding: 20px;
-    margin: auto;
+    padding: 10px;
+    justify-self: center;
     display: grid;
-    grid-template-rows: 60% 40%;
+    grid-template-rows: 10% 30% 30% 30%;
+    grid-template-columns: 50% 50%;
+    grid-template-areas: 
+        'shiny name'
+        'pokemon types'
+        'pokemon heightweight'
+        'entry entry'
+    ;
 }
 
-#pokedex-mid{
-    grid-row-start: 1;
-    display: grid;
-    grid-template-columns: 50% 50%;
+#search{
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-self: center;
+}
+
+#search-field{
+    width: 25vw;
+    font-family: var(--font1);
 }
 
 #shiny-toggle{
+    grid-area: shiny;
+    width: fit-content;
     display: flex;
     position: absolute;
     align-items: center;
@@ -272,35 +281,43 @@ button:hover{
 
 
 #default-artwork, #shiny-artwork{
-    grid-column-start: 1;
+    grid-area: pokemon;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 10px;
     width: 12vw;
 }
 
-#poke-info{
-    grid-column-start: 2;
+#pokemon-id{
+    grid-area: name;
+    margin: 0px;
+}
+#pokemon-types{
+    margin: 0px;
+    grid-area: types;
+    align-content: center;
+}
+
+#pokemon-height-weight{
+    margin: 0px;
+    grid-area: heightweight;
+    align-content: center;
 }
 
 #pokemon-types > img{
     width: 3.5vw;
 }
 
-#pokedex-bottom{
-    grid-row-start: 2;
-}
-
 #pokedex-entry{
+    grid-area: entry;
     background: url(resources/papertxtr.jpg);
     border-radius: 5px;
     box-shadow: 0 1px 5px #757575;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 22px;
+    font-size: 20px;
+    margin: 3px;
     width: 100%;
-    height: 12vh;
 }
 
 
@@ -309,6 +326,9 @@ button:hover{
 #type-chart{
     display: grid;
     grid-template-columns: 50% 50%;
+    grid-template-areas: 
+        'choose results'
+    ;
     text-align: center;
     
 }
@@ -322,7 +342,7 @@ button:hover{
     width: 20vw;
     height: 20vw;
     margin: auto;
-    grid-column-start: 1;
+    grid-area: choose;
     text-align: center;
 }
 
@@ -337,7 +357,7 @@ button:hover{
     margin: auto;
     padding: 0;
     display: grid;
-    grid-column-start: 2;
+    grid-area: results;
     grid-template-rows: repeat(4, 1fr);
 
 }
@@ -363,3 +383,182 @@ button:hover{
     margin: 5px;
 }
 
+@media only screen and (max-width: 850px) {
+    .content{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-template-areas:
+            'menu'
+            'header'
+            'main'
+            'main';
+        height: fit-content;
+        width: 95vw;
+        background-repeat: repeat;
+    }
+
+    .nav{
+        padding-top: 30px; 
+        grid-area: menu;
+        display: grid;
+        width: 100%;
+        justify-self: center;
+        grid-template-columns: 1fr 1fr 1fr 1fr; 
+    }
+    a > img{
+        height: 5vh;
+    }
+    .title{
+        grid-area: header;
+    }
+    .inner-content{
+        grid-area: main;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-template-areas:
+            'block1'
+            'block2';
+    }
+    #row1{
+        grid-area: block1;
+    }
+    #welcome{
+        padding: 0px;
+    }
+    #spinarak{
+        grid-area: block2;
+        width: 10vh;
+    }
+    #mareep{
+        grid-area: block2;
+        width: 15vw;
+    }
+
+    /* POKÉDEX */
+
+    #pokemon-search{
+        width: 90vw;
+        min-height: 50vh;
+    }
+
+    #default-artwork, #shiny-artwork{
+        width: 40vw;
+    }
+
+    #pokemon-types > img{
+        width: 12vw;
+    }
+
+
+    /* TYPE CHART */
+    #type-chart{
+        grid-template-columns: auto auto;
+        grid-template-areas: 
+            'choose'
+            'results'
+        ;
+        justify-content: center;
+    }
+
+    #chosen-type{
+        width: fit-content;
+        height: fit-content;
+    }
+
+    #type-effects{
+        width: fit-content;
+        height: fit-content;
+    }
+
+    #type-col{
+        max-height: max-content;
+    }
+
+    #type-btn{
+        width: 15vw;
+    }
+
+    #type-effects{
+        width: 100%;
+        margin-top: 50px;
+    }
+
+    #strengths > img, #weaknesses > img, #no-effect-to > img, #no-effects > img {
+        width: 15vw;
+        padding: 10px;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .content{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-template-areas:
+            'menu'
+            'header'
+            'main'
+            'main';
+        height: fit-content;
+        width: 75vw;
+    }
+
+    .nav{
+        padding-top: 30px; 
+        grid-area: menu;
+        display: grid;
+        width: 100%;
+        justify-self: center;
+        grid-template-columns: 1fr 1fr 1fr 1fr; 
+    }
+
+    /* NOTES */
+
+    .notes{
+        grid-template-columns: auto;
+        grid-template-rows: auto auto;
+        grid-template-areas: 
+            'block1'
+            'block2'
+        ;
+    }
+
+    #notes-input{
+        width: 90%;
+        grid-area: block1;
+        justify-self: center;
+    }
+    #note-title{
+        max-width: 90%;
+    }
+    #notes-list{
+        width: 90%;
+        grid-area: block2;
+        justify-self: center;
+        margin-top: 50px;
+    }
+    .note{
+        width: 90%;
+        justify-self: center;
+    }
+
+    #type-chart{
+        grid-template-columns: auto auto;
+        grid-template-areas: 
+            'choose'
+            'results'
+        ;
+        justify-content: center;
+    }
+
+    #chosen-type{
+        width: fit-content;
+        height: fit-content;
+    }
+
+    #type-effects{
+        width: fit-content;
+        height: fit-content;
+    }
+}
