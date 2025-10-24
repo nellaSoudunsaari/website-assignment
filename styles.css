@@ -200,6 +200,8 @@ button:hover{
     padding: 10px;
     margin: 10px;
     width: 25vw;
+    overflow-y: hidden;
+    max-height: 15vh;
 }
 
 /* Pokédex */
@@ -378,12 +380,13 @@ button:hover{
     padding: 10px;
 }
 
-#strengths > img, #weaknesses > img, #no-effect-to > img, #no-effects > img {
+    #the-type > img, #strengths > img, #weaknesses > img, #no-effect-to > img, #no-effects > img {
     width: 3.5vw;
 }
 #type-strengths > p, #type-weaknesses > p, #type-ineffectives > p, #type-no-effects > p {
     margin: 5px;
 }
+
 
 @media only screen and (max-width: 850px) {
     .content{
@@ -462,13 +465,16 @@ button:hover{
     }
 
     #chosen-type{
+        grid-area: choose;
         width: fit-content;
         height: fit-content;
     }
 
     #type-effects{
-        width: fit-content;
-        height: fit-content;
+        grid-area: results;
+        width: 100%;
+        margin-top: 50px;
+        max-height: 500px;
     }
 
     #type-col{
@@ -478,13 +484,7 @@ button:hover{
     #type-btn{
         width: 15vw;
     }
-
-    #type-effects{
-        width: 100%;
-        margin-top: 50px;
-    }
-
-    #strengths > img, #weaknesses > img, #no-effect-to > img, #no-effects > img {
+    #the-type > img, #strengths > img, #weaknesses > img, #no-effect-to > img, #no-effects > img {
         width: 15vw;
         padding: 10px;
     }
@@ -556,13 +556,31 @@ button:hover{
         justify-content: center;
     }
 
+    #type-col{
+        max-height: fit-content;
+    }
+
     #chosen-type{
+        grid-area: choose;
         width: fit-content;
         height: fit-content;
     }
 
     #type-effects{
+        grid-area: results;
         width: fit-content;
         height: fit-content;
+        margin-top: 50px;
+        max-height: 500px;
+    }
+
+    #type-btn{
+        width: 7vw;
+    }
+    #the-type > img, #strengths > img, #weaknesses > img, #no-effect-to > img, #no-effects > img {
+        width: 7vw;
+        padding: 10px;
     }
 }
+
+

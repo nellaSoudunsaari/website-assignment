@@ -241,6 +241,7 @@ shinyToggle.addEventListener("change", function() {
 // POKÉMON TYPE CHART
 
 const typeList = document.getElementById("type-col");
+const typeChosen = document.getElementById("the-type");
 const typeStrenghts = document.getElementById("strengths");
 const typeWeaknesses = document.getElementById("weaknesses");
 const typeNoEffects = document.getElementById("no-effects");
@@ -267,6 +268,9 @@ function typeEffects(clicked_value){
     .then(response => response.json())
     .then(data => {
         type = data;
+
+        typeChosen.innerHTML = "";
+        typeChosen.innerHTML += `<img src="resources/pokemon_types/${clicked_value}.png" alt="">`;
 
         // Strenghts
         typeStrenghts.innerHTML = "";
