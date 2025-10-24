@@ -340,7 +340,8 @@ button:hover{
     box-sizing: border-box;
     display: grid;
     width: 20vw;
-    height: 20vw;
+    height: 30vw;
+    max-height: 400px;
     margin: auto;
     grid-area: choose;
     text-align: center;
@@ -353,7 +354,8 @@ button:hover{
     box-shadow: 0 1px 5px #ccc;
     box-sizing: border-box;
     width: 20vw;
-    height: 20vw;
+    height: 30vw;
+    max-height: 400px;
     margin: auto;
     padding: 0;
     display: grid;
@@ -438,13 +440,11 @@ button:hover{
     /* POKÉDEX */
 
     #pokemon-search{
-        width: 90vw;
+        width: 90%;
         min-height: 50vh;
     }
 
-    #default-artwork, #shiny-artwork{
-        width: 40vw;
-    }
+    
 
     #pokemon-types > img{
         width: 12vw;
@@ -541,6 +541,10 @@ button:hover{
     .note{
         width: 90%;
         justify-self: center;
+    }
+
+    #default-artwork, #shiny-artwork{
+        width: 100%;
     }
 
     #type-chart{
