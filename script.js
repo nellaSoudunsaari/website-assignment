@@ -20,7 +20,7 @@ const pgtitle = document.getElementById("title");
 // Change pages/navigation
 navFrontpg.addEventListener("click", () =>{
     pgtitle.innerHTML = "Front page";
-    conFrontpg.style.display = "block";
+    conFrontpg.style.display = "grid";
     conFirstpg.style.display = "none";
     conSecondpg.style.display = "none";
     conThirdpg.style.display = "none";
@@ -29,7 +29,7 @@ navFrontpg.addEventListener("click", () =>{
 navFirstpg.addEventListener("click", () =>{
     pgtitle.innerHTML = "Notes";
     conFrontpg.style.display = "none";
-    conFirstpg.style.display = "block";
+    conFirstpg.style.display = "grid";
     conSecondpg.style.display = "none";
     conThirdpg.style.display = "none";
 });
@@ -38,7 +38,7 @@ navSecondpg.addEventListener("click", () =>{
     pgtitle.innerHTML = "Pokédex";
     conFrontpg.style.display = "none";
     conFirstpg.style.display = "none";
-    conSecondpg.style.display = "block";
+    conSecondpg.style.display = "grid";
     conThirdpg.style.display = "none";
 });
 
@@ -47,7 +47,7 @@ navThirdpg.addEventListener("click", () =>{
     conFrontpg.style.display = "none";
     conFirstpg.style.display = "none";
     conSecondpg.style.display = "none";
-    conThirdpg.style.display = "block";
+    conThirdpg.style.display = "grid";
 });
 
 
@@ -152,6 +152,7 @@ function showFullNote(ind){
     // search 
 const searchField = document.getElementById("search-field");
 const searchBtn = document.getElementById("search-btn");
+const randomBtn = document.getElementById("random-btn");
 
     //info fields
 const pokemonID = document.getElementById("pokemon-id");
@@ -170,6 +171,23 @@ searchBtn.addEventListener("click", () =>{
     .then(data => displayPokemon(data))
     .catch(err => console.error(err));
 });
+
+randomBtn.addEventListener("click", () =>{
+
+  let randomPokemonID;
+
+  fetch(`https://pokeapi.co/api/v2/pokemon/`)
+  .then(response => response.json())
+  .then(data => {
+    let allPokemonCount = data.count;
+    randomPokemonID = Math.floor(Math.random() * (allPokemonCount - 1));
+      fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemonID}`)
+      .then(response => response.json())
+      .then(data => {
+        displayPokemon(data);
+      });
+  })});
+
 
 function displayPokemon(pokemonData){
 
