@@ -226,11 +226,9 @@ function displayPokemon(pokemonData){
 
 shinyToggle.addEventListener("change", function() {
     if(shinyToggle.checked){
-        console.log("checked");
         shinyImg.style.display = "block";
         defImg.style.display = "none";
     } else {
-        console.log("unchecked");
         shinyImg.style.display = "none";
         defImg.style.display = "block";
     }
@@ -239,4 +237,54 @@ shinyToggle.addEventListener("change", function() {
 
 // POKÉMON TYPE CHART
 
+const typeList = document.getElementById("type-col");
+const typeStrenghts = document.getElementById("strengths");
+const typeWeaknesses = document.getElementById("weaknesses");
+const typeNoEffects = document.getElementById("no-effects");
+const typeNoEffectTo = document.getElementById("no-effect-to");
 
+window.onload = function() {
+    let typeAmount = 18;
+    for(let i = 1; i <= typeAmount; i++){
+        fetch(`https://pokeapi.co/api/v2/type/${i}/`)
+        .then(response => response.json())
+        .then(data => {
+            displayType(data);
+        })
+        .catch(err => console.error(err));
+    }  
+};
+
+function displayType(typeData){
+    typeList.innerHTML += `<input id="type-btn" type="image" src="resources/pokemon_types/${typeData.name}.png" onClick="typeEffects(this.value)" value="${typeData.name}"/>`;
+};
+
+function typeEffects(clicked_value){
+    fetch(`https://pokeapi.co/api/v2/type/${clicked_value}`)
+    .then(response => response.json())
+    .then(data => {
+        type = data;
+
+        // Strenghts
+        typeStrenghts.innerHTML = "";
+        type.damage_relations.double_damage_to.forEach( type =>{
+            typeStrenghts.innerHTML += `<img src="resources/pokemon_types/${type.name}.png" alt="">`;
+        });
+        // Weaknesses
+        typeWeaknesses.innerHTML = "";
+        type.damage_relations.double_damage_from.forEach( type =>{
+            typeWeaknesses.innerHTML += `<img src="resources/pokemon_types/${type.name}.png" alt="">`;
+        });
+        // Immune to
+        typeNoEffectTo.innerHTML = "";
+        type.damage_relations.no_damage_to.forEach( type =>{
+            typeNoEffectTo.innerHTML += `<img src="resources/pokemon_types/${type.name}.png" alt="">`;
+        });
+        // Immunity from
+        typeNoEffects.innerHTML = "";
+        type.damage_relations.no_damage_from.forEach( type =>{
+            typeNoEffects.innerHTML += `<img src="resources/pokemon_types/${type.name}.png" alt="">`;
+        });
+    })
+    .catch(err => console.error(err));
+}

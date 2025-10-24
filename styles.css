@@ -304,8 +304,9 @@ button:hover{
     height: 20vw;
     margin: auto;
     grid-column-start: 1;
-    grid-template-columns: 50% 50%;
+    text-align: center;
 }
+
 
 #type-effects{
     background: url(resources/borderbg.gif);
@@ -315,7 +316,31 @@ button:hover{
     width: 20vw;
     height: 20vw;
     margin: auto;
+    padding: 0;
     display: grid;
     grid-column-start: 2;
+    grid-template-rows: repeat(4, 1fr);
+
+}
+
+#type-effects > div{
+    height: fit-content;
+}
+
+#type-col{
+    width: fit-content;
+    max-height: 20vh;
+}
+
+#type-btn{
+    width: 3.5vw;
+    padding: 10px;
+}
+
+#strengths > img, #weaknesses > img, #no-effect-to > img, #no-effects > img {
+    width: 3.5vw;
+}
+#type-strengths > p, #type-weaknesses > p, #type-ineffectives > p, #type-no-effects > p {
+    margin: 5px;
 }
 
