@@ -57,23 +57,20 @@ body{
     grid-column-start: 1;
     display: grid;
     text-align: left;
-    grid-template-rows: repeat(5, 100%);
+    grid-template-rows: repeat(4, 100%);
 }
 
 #front-page{
     grid-row-start: 1;
 }
 #first-page{
-    grid-row-start: 2;
-}
-#second-page{
-    grid-row-start: 3;
-}
-#third-page{
     grid-row-start: 4;
 }
-#fourth-page{
-    grid-row-start: 5;
+#second-page{
+    grid-row-start: 2;
+}
+#third-page{
+    grid-row-start: 3;
 }
 
 a{
@@ -106,7 +103,7 @@ a:hover > #label{
 }
 
 a > img{
-   height: 100px; 
+   height: 10vh; 
 }
 
 button{
@@ -123,6 +120,28 @@ button{
 button:hover{
     background-color: #e4ceee;
 }
+/* Front page */
+
+#row1{
+    display: flex;
+    position: relative;
+    text-align: center;
+}
+
+#welcome{
+    padding-left: 5vw;
+}
+
+#mareep{
+    float: right;
+    padding-right: 10vw;
+}
+
+
+#row1 > img, #row2 > img{
+    width: 10vw;
+}
+
 
 /* Notes page */
 
